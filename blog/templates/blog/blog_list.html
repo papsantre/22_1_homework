@@ -1,0 +1,41 @@
+{% extends 'catalog/home.html'%}
+{% load static %}
+{% load my_tags %}
+{% block content %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Skystore</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+<div style="display: flex; justify-content: flex-end;">
+<a class="btn btn-primary" href="{% url 'blog:create' %}" role="button">Создать блог</a>
+</div>
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for object in object_list %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img src="{{ object.preview | media_filter }}" width="300" height="400">
+                    <div class="card-body">
+                        <p class="card-text">{{ object.title }}</p>
+                        <p class="card-text">Описание: {{ object.content | truncatewords:20|truncatechars:100 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="{% url 'blog:view' object.pk %}" role="button">Читать</a>
+                                 <a class="btn btn-warning" href="{% url 'blog:update' object.pk %}" role="button">Редактировать</a>
+                                <a class="btn btn-danger" href="{% url 'blog:delete' object.pk %}" role="button">Удалить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
